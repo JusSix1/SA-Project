@@ -1,7 +1,7 @@
 import { DepartmentsInterface } from "../employee/IDepartment";
 import { PatientsInterface } from "../patient/IPatient";
 
-export interface AppointmentsInterface {
+export interface AppointmentInterface {
     [x: string]: any;
     ID: number,
 

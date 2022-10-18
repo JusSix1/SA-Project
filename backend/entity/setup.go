@@ -52,19 +52,6 @@ func SetupDatabase() {
 
 	db = database
 
-	//employee
-	E1 := Employee{
-		Personal_ID: "0987654321123",
-		First_Name:  "Doc.1",
-	}
-	db.Model(&Employee{}).Create(&E1)
-
-	E2 := Employee{
-		Personal_ID: "1200000000000",
-		First_Name:  "Doc.2",
-	}
-	db.Model(&Employee{}).Create(&E2)
-
 	//Department
 	eye := Department{
 		Department_NAME: "ตา",
@@ -122,22 +109,32 @@ func SetupDatabase() {
 	db.Model(&Patient_Rights{}).Create(&P)
 
 	// Patient
-
 	P1 := Patient{
 		Patient_Personal_ID: "1319800334497",
-		Patient_Firstname:   "A",
 	}
 	P2 := Patient{
 		Patient_Personal_ID: "1234567890123",
-		Patient_Firstname:   "B",
 	}
 	P3 := Patient{
 		Patient_Personal_ID: "0987654321123",
-		Patient_Firstname:   "C",
 	}
 	db.Model(&Patient{}).Create(&P1)
 	db.Model(&Patient{}).Create(&P2)
 	db.Model(&Patient{}).Create(&P3)
+
+	// Employee
+	E1 := Employee{
+		Personal_ID: "1231235675623",
+	}
+	E2 := Employee{
+		Personal_ID: "7838591276903",
+	}
+	E3 := Employee{
+		Personal_ID: "9082345567446",
+	}
+	db.Model(&Employee{}).Create(&E1)
+	db.Model(&Employee{}).Create(&E2)
+	db.Model(&Employee{}).Create(&E3)
 
 	// Medicine
 	M1 := Medicine{
