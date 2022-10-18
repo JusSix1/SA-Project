@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FullAppBar from "./components/FullAppBar";
+import AppointmentTable_UI from "./components/AppointmentTable_UI";
 
 import Login from './components/Login_UI';
 import Employee_entry from "./components/EmployeeData_UI";
 import Patient_UI from './components/Patient_UI';
 import Diagnostic from "./components/Diagnostic_UI";
 import Dispensation from './components/Dispensation_UI';
-import Appointment_UI from './components/Appointment_UI';
+import Appointment_UI from "./components/AppointmentCreate_UI";
 import Bill_UI from './components/Bill_UI';
 
 export default function App() {

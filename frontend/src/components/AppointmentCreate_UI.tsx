@@ -20,10 +20,6 @@ import { AppointmentsInterface } from "../models/Appointment/IAppointment";
 import { PatientsInterface } from "../models/patient/IPatient";
 import { DepartmentsInterface } from "../models/employee/IDepartment";
 
-
-
-
-
 function Appointment_UI() {
   //const [value, setValue] = React.useState<string | null>(options[0]);
   //const [inputValue, setInputValue] = React.useState(''); //set inputValue back
