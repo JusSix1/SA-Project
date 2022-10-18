@@ -16,12 +16,10 @@ import Alert from "@mui/material/Alert";
 import FormControl from "@mui/material/FormControl";
 import Select from "@material-ui/core/Select";
 
+
 import { AppointmentsInterface } from "../models/Appointment/IAppointment";
-import { PatientsInterface } from "../models/patient/IPatient";
 import { DepartmentsInterface } from "../models/employee/IDepartment";
-
-
-
+import { PatientsInterface } from "../models/patient/IPatient";
 
 
 function Appointment_UI() {
@@ -51,7 +49,7 @@ function Appointment_UI() {
   var patientArray = patient.map((item: PatientsInterface) => (item.Patient_Personal_ID));       //ดึงรหัสบัตรประชาชนมาเป็น Array
 
   const getPatient = async () => {                                                              //ดึงข้อมูลผู้ป๋วย                                   
-      const apiUrl = "http://localhost:8080/patients/:id";
+      const apiUrl = "http://localhost:8080/patient/:id";
       const requestOptions = {
           method: "GET",
           headers: { "Content-Type": "application/json" },

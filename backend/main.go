@@ -4,9 +4,11 @@ import (
 	department_controller "github.com/non-nattawut/patient-management-system/controller/department"
 
 	dispensation_controller "github.com/non-nattawut/patient-management-system/controller/dispensation"
+
 	patient_controller "github.com/non-nattawut/patient-management-system/controller/patient"
 
 	appointment_controller "github.com/non-nattawut/patient-management-system/controller/appointment"
+
 	"github.com/non-nattawut/patient-management-system/entity"
 
 	"github.com/gin-gonic/gin"
@@ -19,7 +21,7 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	//department
-	r.GET("/department/:id", department_controller.GetDepartment)
+	r.GET("/department", department_controller.GetDepartment)
 
 	//dispensation
 	r.GET("/dispensations", dispensation_controller.ListDispensations)
@@ -37,7 +39,7 @@ func main() {
 
 	r.GET("/medicines", dispensation_controller.ListMedicines)
 
-	r.GET("/patients/:id", patient_controller.ListPetients)
+	r.GET("/patients", patient_controller.ListPetients)
 
 	r.Run() // run server
 }
