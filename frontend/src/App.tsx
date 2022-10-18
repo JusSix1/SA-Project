@@ -1,25 +1,29 @@
-import { BrowserRouter as Router} from "react-router-dom";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FullAppBar from "./components/FullAppBar";
-import AppointmentCreate_UI from "./components/AppointmentCreate_UI";
-import AppointmentTable_UI from "./components/AppointmentTable_UI";
+
+import Login from './components/Login_UI';
+import Employee_entry from "./components/EmployeeData_UI";
+import Patient_UI from './components/Patient_UI';
+import Diagnostic from "./components/Diagnostic_UI";
+import Dispensation from './components/Dispensation_UI';
+import Appointment_UI from './components/Appointment_UI';
+import Bill_UI from './components/Bill_UI';
 
 export default function App() {
-
-return (
-
+  return (
   <Router>
-
-   <div>
-
-    <FullAppBar />
-    <AppointmentCreate_UI/>
-    <AppointmentTable_UI/>
-
-   </div>
-
+    <div>
+      <FullAppBar />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/employee" element={<Employee_entry />} />
+        <Route path="/patient" element={<Patient_UI />} />
+        <Route path="/diagnostic" element={<Diagnostic />} />
+        <Route path="/dispensation" element={<Dispensation />} />
+        <Route path="/appointment" element={<Appointment_UI />} />
+        <Route path="/Bill" element={<Bill_UI />} />
+      </Routes>
+    </div>
   </Router>
-
-);
-
+  );
 }

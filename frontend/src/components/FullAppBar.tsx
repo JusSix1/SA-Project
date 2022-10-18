@@ -3,8 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
@@ -13,12 +11,18 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Drawer from '@mui/material/Drawer';
 import { makeStyles } from "@material-ui/core/styles";
+
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import AddToQueueIcon from '@mui/icons-material/AddToQueue';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
+import BadgeIcon from '@mui/icons-material/Badge';
 
-var systemName = "วินิจฉัย";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles({
   drawer: {
@@ -61,26 +65,41 @@ function FullAppBar() {
 
           <List className={classes.drawer} sx={{margin: 1,padding: 2}}>
 
-            <ListItem button>                                                                     {/* icon จ่ายยา */}
+          < ListItem button component={RouterLink} to="/employee">                             {/* icon ออกบิล */}
+              <BadgeIcon color="primary" />
+              <ListItemText primary="บุคลากร" sx={{padding: 2}}/>
+            </ListItem>
+
+            <ListItem button component={RouterLink} to="/patient">                             {/* icon ออกบิล */}
+              <AirlineSeatFlatIcon color="primary" />
+              <ListItemText primary="คนไข้" sx={{padding: 2}}/>
+            </ListItem>
+
+            <ListItem button component={RouterLink} to="/diagnostic">                             {/* icon จ่ายยา */}
               <PersonSearchIcon color="primary" />
               <ListItemText primary="วินิจฉัย" sx={{padding: 2}}/>
             </ListItem>
             
-            <ListItem button>                                                                     {/* icon จ่ายยา */}
+            <ListItem button component={RouterLink} to="/dispensation">                            {/* icon จ่ายยา */}
               <VaccinesIcon color="primary" />
               <ListItemText primary="สั่งจ่ายยา" sx={{padding: 2}}/>
             </ListItem>
             
-            <ListItem button>                                                                     {/* icon ใบนัด */}
+            <ListItem button component={RouterLink} to="/appointment">                             {/* icon ใบนัด */}
               <AddToQueueIcon color="primary" />
               <ListItemText primary="ใบนัด" sx={{padding: 2}}/>
+            </ListItem>
+
+            <ListItem button component={RouterLink} to="/bill">                             {/* icon ออกบิล */}
+              <AttachMoneyIcon color="primary" />
+              <ListItemText primary="ออกบิล" sx={{padding: 2}}/>
             </ListItem>
 
           </List>
         </Drawer>
 
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {systemName}
+            Patient Management System
           </Typography>
 
           {auth && (                                                                               /* รูป Icon Profild */
@@ -93,7 +112,7 @@ function FullAppBar() {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+              <AccountCircle />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -111,7 +130,7 @@ function FullAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>1300000000000</MenuItem>        {/*รหัสหมออออออ*/}
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleClose} component={RouterLink} to="/" >Logout</MenuItem>
               </Menu>
             </div>
           )}
