@@ -47,7 +47,7 @@ function Appointment_UI() {
   var patientArray = patient.map((item: PatientsInterface) => (item.Patient_Personal_ID));       //ดึงรหัสบัตรประชาชนมาเป็น Array
 
   const getPatient = async () => {                                                              //ดึงข้อมูลผู้ป๋วย                                   
-      const apiUrl = "http://localhost:8080/patients/:id";
+      const apiUrl = "http://localhost:8080/patients";
       const requestOptions = {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -65,7 +65,7 @@ function Appointment_UI() {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const getDepartment = async () => {                                                           //ดึงข้อมูล Department
-    const apiUrl = "http://localhost:8080/department/:id";
+    const apiUrl = "http://localhost:8080/department";
     const requestOptions = {
         method: "GET",
         headers: { "Content-Type": "application/json" },
