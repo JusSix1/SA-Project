@@ -111,8 +111,6 @@ func SetupDatabase() {
 	// Patient
 	P1 := Patient{
 		Patient_Personal_ID: "1319800334497",
-		Patient_Firstname:   "A",
-		Patient_Lastname:    "AA",
 	}
 	P2 := Patient{
 		Patient_Personal_ID: "1234567890123",
