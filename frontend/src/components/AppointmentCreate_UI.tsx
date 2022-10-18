@@ -51,7 +51,7 @@ function Appointment_UI() {
   var patientArray = patient.map((item: PatientsInterface) => (item.Patient_Personal_ID));       //ดึงรหัสบัตรประชาชนมาเป็น Array
 
   const getPatient = async () => {                                                              //ดึงข้อมูลผู้ป๋วย                                   
-      const apiUrl = "http://localhost:8080/patient/:id";
+      const apiUrl = "http://localhost:8080/patients/:id";
       const requestOptions = {
           method: "GET",
           headers: { "Content-Type": "application/json" },

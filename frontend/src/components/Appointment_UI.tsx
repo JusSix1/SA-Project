@@ -17,7 +17,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@material-ui/core/Select";
 
 
-import { AppointmentInterface } from "../models/Appointment/IAppointment";
+import { AppointmentsInterface } from "../models/Appointment/IAppointment";
 import { DepartmentsInterface } from "../models/employee/IDepartment";
 import { PatientsInterface } from "../models/patient/IPatient";
 
@@ -26,7 +26,7 @@ function Appointment_UI() {
   //const [value, setValue] = React.useState<string | null>(options[0]);
   //const [inputValue, setInputValue] = React.useState(''); //set inputValue back
 
-  const [appointment,setAppointment] =React.useState<Partial<AppointmentInterface>>({});
+  const [appointment,setAppointment] =React.useState<Partial<AppointmentsInterface>>({});
   
   const [patient, setPatient] = React.useState<PatientsInterface[]>([]);
 

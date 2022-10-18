@@ -11,7 +11,7 @@ import (
 /* Patient */
 
 /** START step 6 ดึงข้อมูลทั้งหมด() */ // ระบบสั่งจ่ายยา
-// GET /patients
+// GET /patients/:id
 func ListPetients(c *gin.Context) {
 	var patients []entity.Patient
 

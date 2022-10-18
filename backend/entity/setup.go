@@ -111,12 +111,18 @@ func SetupDatabase() {
 	// Patient
 	P1 := Patient{
 		Patient_Personal_ID: "1319800334497",
+		Patient_Firstname:   "A",
+		Patient_Lastname:    "AA",
 	}
 	P2 := Patient{
 		Patient_Personal_ID: "1234567890123",
+		Patient_Firstname:   "B",
+		Patient_Lastname:    "BB",
 	}
 	P3 := Patient{
 		Patient_Personal_ID: "0987654321123",
+		Patient_Firstname:   "C",
+		Patient_Lastname:    "CC",
 	}
 	db.Model(&Patient{}).Create(&P1)
 	db.Model(&Patient{}).Create(&P2)
@@ -125,12 +131,18 @@ func SetupDatabase() {
 	// Employee
 	E1 := Employee{
 		Personal_ID: "1231235675623",
+		First_Name:  "Doc.1",
+		Last_Name:   "Tor.1",
 	}
 	E2 := Employee{
 		Personal_ID: "7838591276903",
+		First_Name:  "Doc.2",
+		Last_Name:   "Tor.2",
 	}
 	E3 := Employee{
 		Personal_ID: "9082345567446",
+		First_Name:  "Doc.3",
+		Last_Name:   "Tor.3",
 	}
 	db.Model(&Employee{}).Create(&E1)
 	db.Model(&Employee{}).Create(&E2)

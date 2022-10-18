@@ -1,8 +1,12 @@
 package main
 
 import (
+	department_controller "github.com/non-nattawut/patient-management-system/controller/department"
+
 	dispensation_controller "github.com/non-nattawut/patient-management-system/controller/dispensation"
 	patient_controller "github.com/non-nattawut/patient-management-system/controller/patient"
+
+	appointment_controller "github.com/non-nattawut/patient-management-system/controller/appointment"
 	"github.com/non-nattawut/patient-management-system/entity"
 
 	"github.com/gin-gonic/gin"
@@ -14,6 +18,10 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
+	//department
+	r.GET("/department/:id", department_controller.GetDepartment)
+
+	//dispensation
 	r.GET("/dispensations", dispensation_controller.ListDispensations)
 	r.GET("/dispensation/:id", dispensation_controller.GetDispensation)
 	r.POST("/dispensations", dispensation_controller.CreateDispensation)
@@ -22,9 +30,14 @@ func main() {
 
 	r.POST("/dispensation_medicines", dispensation_controller.CreateDispensationMedicine)
 
+	//Appointment
+	r.POST("/appointment", appointment_controller.CraeteAppointment)
+	r.GET("/appointment/:id", appointment_controller.GetAppointment)
+	r.GET("/appointment", appointment_controller.ListAppointment)
+
 	r.GET("/medicines", dispensation_controller.ListMedicines)
 
-	r.GET("/patients", patient_controller.ListPetients)
+	r.GET("/patients/:id", patient_controller.ListPetients)
 
 	r.Run() // run server
 }
