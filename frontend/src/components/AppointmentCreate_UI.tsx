@@ -20,6 +20,8 @@ import { AppointmentsInterface } from "../models/Appointment/IAppointment";
 import { PatientsInterface } from "../models/patient/IPatient";
 import { DepartmentsInterface } from "../models/employee/IDepartment";
 
+import AppointmentTable_UI from "./AppointmentTable_UI";
+
 function Appointment_UI() {
   //const [value, setValue] = React.useState<string | null>(options[0]);
   //const [inputValue, setInputValue] = React.useState(''); //set inputValue back
@@ -36,16 +38,11 @@ function Appointment_UI() {
 
   const [details, setDetails] = React.useState<String>("");
 
-  const [passPatient, setPassPatient] = React.useState<string | null>("");
-
   const [success, setSuccess] = React.useState(false);
 
   const [error, setError] = React.useState(false);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  var patientArray = patient.map((item: PatientsInterface) => (item.Patient_Personal_ID));       //ดึงรหัสบัตรประชาชนมาเป็น Array
-
   const getPatient = async () => {                                                              //ดึงข้อมูลผู้ป๋วย                                   
       const apiUrl = "http://localhost:8080/patients";
       const requestOptions = {
@@ -124,7 +121,7 @@ function Appointment_UI() {
 
       Employee_ID: 1,
 
-      Patient_ID: patientArray.indexOf(passPatient || "") + 1 ?? 0,
+      Patient_ID: appointment.Patient_ID,
  
       APP_OUT: dateOut,
  
@@ -218,22 +215,38 @@ function Appointment_UI() {
                     Patient Personal ID
                   </Grid>
                     <Grid item xs={9} sx={{ padding: 2, width: 150 }}>                          
-                      <Autocomplete                                                             //combobox Patient
-                        value={passPatient}
-                        onChange={(
-                          event: any,
-                          newValue: string | null
-                          ) => {
-                          setPassPatient(newValue);
-                          }
-                        }
-                        id="controllable-states-demo"
-                        options={patientArray}
+                    <Autocomplete
+                        id="patient-autocomplete"
+                        options={patient}
+                        fullWidth
                         size="small"
-                        renderInput={(params) => (
-                          <TextField {...params} />
-                          )
-                        }
+                        onChange={(event: any, value) => {
+                          console.log(value?.ID); //Get ID from patientinterface
+                          setAppointment({ ...appointment, Patient_ID: value?.ID }); //Just Set ID to interface
+                        }}
+                        getOptionLabel={(option: any) =>
+                          `${option.Patient_Personal_ID} ${
+                            option.Patient_Firstname
+                          } ${option.Patient_Lastname}`
+                        } //filter value
+                        renderInput={(params) => {
+                          return (
+                            <TextField
+                              {...params}
+                              variant="outlined"
+                              placeholder="Search..."
+                            />
+                          );
+                        }}
+                        renderOption={(props: any, option: any) => {
+                          return (
+                            <li
+                              {...props}
+                              value={`${option.ID}`}
+                              key={`${option.ID}`}
+                            >{`${option.Patient_Personal_ID}`}</li>
+                          ); //display value
+                        }}
                       />
                   </Grid>
                   <Grid item xs={3} sx={{ padding: 2 }}>
@@ -330,7 +343,10 @@ function Appointment_UI() {
           </Paper>
         </Box>
       </Container>
-    </Box>
+      <Box>
+        <AppointmentTable_UI/>
+      </Box>
+    </Box>  
   );
 }
   
