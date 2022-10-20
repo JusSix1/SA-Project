@@ -3,6 +3,14 @@ package main
 import (
 	department_controller "github.com/non-nattawut/patient-management-system/controller/department"
 
+	gender_controller "github.com/non-nattawut/patient-management-system/controller/gender"
+
+	bloodGroups_controller "github.com/non-nattawut/patient-management-system/controller/bloodGroups"
+
+	position_controller "github.com/non-nattawut/patient-management-system/controller/position"
+
+	employee_controller "github.com/non-nattawut/patient-management-system/controller/employee"
+
 	dispensation_controller "github.com/non-nattawut/patient-management-system/controller/dispensation"
 
 	patient_controller "github.com/non-nattawut/patient-management-system/controller/patient"
@@ -21,7 +29,22 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	//department
-	r.GET("/department", department_controller.GetDepartment)
+	r.GET("/departments", department_controller.ListDepartment)
+
+	//gender
+	r.GET("/genders", gender_controller.ListGenders)
+
+	//bloodGroups
+	r.GET("/bloodGroups", bloodGroups_controller.ListBloodGroups)
+
+	//position
+	r.GET("/positions", position_controller.ListPosition)
+
+	//Employee
+	r.POST("/Employees", employee_controller.CreateEmployees)
+
+	//Patient
+	r.GET("/patients", patient_controller.ListPetients)
 
 	//dispensation
 	r.GET("/dispensations", dispensation_controller.ListDispensations)
@@ -38,8 +61,6 @@ func main() {
 	r.GET("/appointment", appointment_controller.ListAppointment)
 
 	r.GET("/medicines", dispensation_controller.ListMedicines)
-
-	r.GET("/patients", patient_controller.ListPetients)
 
 	r.Run() // run server
 }

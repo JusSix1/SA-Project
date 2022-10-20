@@ -62,7 +62,7 @@ function Appointment_UI() {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const getDepartment = async () => {                                                           //ดึงข้อมูล Department
-    const apiUrl = "http://localhost:8080/department";
+    const apiUrl = "http://localhost:8080/departments";
     const requestOptions = {
         method: "GET",
         headers: { "Content-Type": "application/json" },
@@ -253,25 +253,37 @@ function Appointment_UI() {
                     Department
                   </Grid>
                   <Grid item xs={9} sx={{ padding: 2 }}>                                        {/* combobox department */}
-                    <FormControl fullWidth variant="outlined">
-                      <Select
-                        native
-                        value={appointment.DepartmentID}
-                        onChange={handleChangeDepartment}
-                        inputProps={{
-                          name: "DepartmentID",
-                        }}
-                      >
-                        <option aria-label="None" value="">
-                          -
-                        </option>
-                        {department.map((item: DepartmentsInterface) => (
-                          <option value={item.ID} key={item.ID}>
-                            {item.Department_NAME}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormControl>
+                  <Autocomplete
+                    id="department-autocomplete"
+                    options={department}
+                    fullWidth
+                    size="small"
+                    onChange={(event: any, value) => {
+                      console.log(value?.ID); //Get ID from patientinterface
+                        setAppointment({ ...appointment, DepartmentID: value?.ID }); //Just Set ID to interface
+                      }}
+                      getOptionLabel={(option: any) =>
+                        `${option.Department_Name}`
+                      } //filter value
+                      renderInput={(params) => {
+                        return (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            placeholder="Search..."
+                          />
+                        );
+                      }}
+                      renderOption={(props: any, option: any) => {
+                        return (
+                          <li
+                            {...props}
+                            value={`${option.ID}`}
+                            key={`${option.ID}`}
+                          >{`${option.Department_Name}`}</li>
+                        ); //display value
+                      }}
+                    />
                   </Grid>
                   <Grid item xs={3} sx={{ padding: 2 }}>
                     Date

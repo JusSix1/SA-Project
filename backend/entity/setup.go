@@ -53,37 +53,121 @@ func SetupDatabase() {
 	db = database
 
 	//Department
-	eye := Department{
-		Department_NAME: "ตา",
+	D1 := Department{
+		Department_Name: "IT",
 	}
-	db.Model(&Department{}).Create(&eye)
+	db.Model(&Department{}).Create(&D1)
 
-	normal := Department{
-		Department_NAME: "ทั่วไป",
+	D2 := Department{
+		Department_Name: "MED",
 	}
-	db.Model(&Department{}).Create(&normal)
+	db.Model(&Department{}).Create(&D2)
 
-	// Position
-	doc := Position{
-		Position_Name: "หมอ",
+	D3 := Department{
+		Department_Name: "ER",
 	}
-	db.Model(&Position{}).Create(&doc)
+	db.Model(&Department{}).Create(&D3)
 
-	n := Position{
-		Position_Name: "พยาบาล",
+	D4 := Department{
+		Department_Name: "OR",
 	}
-	db.Model(&Position{}).Create(&n)
+	db.Model(&Department{}).Create(&D4)
+
+	D5 := Department{
+		Department_Name: "LR",
+	}
+	db.Model(&Department{}).Create(&D5)
+
+	D6 := Department{
+		Department_Name: "OPD",
+	}
+	db.Model(&Department{}).Create(&D6)
+
+	D7 := Department{
+		Department_Name: "SUR",
+	}
+	db.Model(&Department{}).Create(&D7)
+
+	D8 := Department{
+		Department_Name: "ORTHO",
+	}
+	db.Model(&Department{}).Create(&D8)
+
+	D9 := Department{
+		Department_Name: "OB-GYN",
+	}
+	db.Model(&Department{}).Create(&D9)
+
+	D10 := Department{
+		Department_Name: "ANC",
+	}
+	db.Model(&Department{}).Create(&D10)
+
+	D11 := Department{
+		Department_Name: "IPD",
+	}
+	db.Model(&Department{}).Create(&D11)
+
+	D12 := Department{
+		Department_Name: "ENT",
+	}
+	db.Model(&Department{}).Create(&D12)
+
+	D13 := Department{
+		Department_Name: "ICU",
+	}
+	db.Model(&Department{}).Create(&D13)
+
+	D14 := Department{
+		Department_Name: "CCU",
+	}
+	db.Model(&Department{}).Create(&D14)
+
+	D := Department{
+		Department_Name: "Finance",
+	}
+	db.Model(&Department{}).Create(&D)
 
 	//BG
-	A := BloodGroups{
-		Blood_Groups_Name: "A",
+	BG1 := BloodGroups{
+		Blood_Groups_Name: "A RH+",
 	}
-	db.Model(&BloodGroups{}).Create(&A)
+	db.Model(&BloodGroups{}).Create(&BG1)
 
-	B := BloodGroups{
-		Blood_Groups_Name: "B",
+	BG2 := BloodGroups{
+		Blood_Groups_Name: "A RH+",
 	}
-	db.Model(&BloodGroups{}).Create(&B)
+	db.Model(&BloodGroups{}).Create(&BG2)
+
+	BG3 := BloodGroups{
+		Blood_Groups_Name: "B RH+",
+	}
+	db.Model(&BloodGroups{}).Create(&BG3)
+
+	BG4 := BloodGroups{
+		Blood_Groups_Name: "B RH-",
+	}
+	db.Model(&BloodGroups{}).Create(&BG4)
+
+	BG5 := BloodGroups{
+		Blood_Groups_Name: "AB RH+",
+	}
+	db.Model(&BloodGroups{}).Create(&BG5)
+
+	BG6 := BloodGroups{
+		Blood_Groups_Name: "AB RH-",
+	}
+	db.Model(&BloodGroups{}).Create(&BG6)
+
+	BG7 := BloodGroups{
+		Blood_Groups_Name: "O RH+",
+	}
+	db.Model(&BloodGroups{}).Create(&BG7)
+
+	BG8 := BloodGroups{
+		Blood_Groups_Name: "O RH-",
+	}
+	db.Model(&BloodGroups{}).Create(&BG8)
 
 	//Gender
 	male := Gender{
@@ -95,6 +179,27 @@ func SetupDatabase() {
 		Gender_Name: "Female",
 	}
 	db.Model(&Gender{}).Create(&female)
+
+	//Position
+	po1 := Position{
+		Position_Name: "Admin",
+	}
+	db.Model(&Position{}).Create(&po1)
+
+	po2 := Position{
+		Position_Name: "Doctor",
+	}
+	db.Model(&Position{}).Create(&po2)
+
+	po3 := Position{
+		Position_Name: "Nurse",
+	}
+	db.Model(&Position{}).Create(&po3)
+
+	po4 := Position{
+		Position_Name: "Cashier",
+	}
+	db.Model(&Position{}).Create(&po4)
 
 	//Patient_Rights
 

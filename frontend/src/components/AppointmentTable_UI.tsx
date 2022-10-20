@@ -30,10 +30,9 @@ function AppointmentTable_UI() {
   const columns: GridColDef[] = [
     { field: "ID", headerName: "ลำดับ", width: 70 },
     {
-      field: "Employee",
-      headerName: "ชื่อ แพทย์",
+      field: "Employee_ID",
+      headerName: "เลขที่พนักงาน",
       width: 250,
-      valueFormatter: (params) => params.value.First_Name +" "+ params.value.Last_Name,
     },
     {
       field: "Patient",
@@ -52,7 +51,7 @@ function AppointmentTable_UI() {
       field: "Department",
       headerName: "แผนก",
       width: 150,
-      valueFormatter: (params) => params.value.Department_NAME,
+      valueFormatter: (params) => params.value.Department_Name,
     },
   ];
 

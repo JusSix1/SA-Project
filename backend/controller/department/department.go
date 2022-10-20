@@ -8,7 +8,7 @@ import (
 )
 
 // GET /Department/:id
-func GetDepartment(c *gin.Context) {
+func ListDepartment(c *gin.Context) {
 	var department []entity.Department
 	if err := entity.DB().Raw("SELECT * FROM departments").Scan(&department).Error; err != nil {
 

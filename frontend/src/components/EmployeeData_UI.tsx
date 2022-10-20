@@ -2,18 +2,32 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
-import { Grid } from "@mui/material";
+import { Alert, Grid, Snackbar } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Autocomplete from "@mui/material/Autocomplete";
+import { DepartmentsInterface } from '../models/employee/IDepartment';
+import { GendersInterface } from '../models/employee/IGender';
+import { EmployeesInterface } from '../models/employee/IEmployee';
+import { BloodGroupsInterface } from '../models/employee/IBloodGroups';
+import { PositionsInterface } from '../models/employee/IPosition';
 
 function Employee_entry() {
+
+const [employee,setEmployee] =React.useState<Partial<EmployeesInterface>>({});
+const [gender, setGender] = React.useState<GendersInterface[]>([]);
+const [bloodGroups, setBloodGroups] = React.useState<BloodGroupsInterface[]>([]);
+const [position, setPosition] = React.useState<PositionsInterface[]>([]);
+const [department, setDepartment] = React.useState<DepartmentsInterface[]>([]);
 
 const [Personal_ID, SetPersonal_ID] = useState<String>("");
 const [Password, SetPassword] = useState<String>("");
 const [FirstName, SetFirstName] = useState<String>("");
 const [LastName, SetLastName] = useState<String>("");
+const [success, setSuccess] = React.useState(false);
+const [error, setError] = React.useState(false);
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -21,25 +35,188 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-const emp_gender = [ "Mele", "Female"];
-  const [gender, setGender] = React.useState<string | null>(null);
 
-  const blood_groups = [ "A RH+", "A RH-", "B RH+", "B RH-", "AB RH+", "AB RH-", "O RH+", "O RH-"];
-  const [bloodgroups, setBloodgroups] = React.useState<string | null>(null);
+const getGender = async () => {                                                              //ดึงข้อมูลเพศ                                  
+  const apiUrl = "http://localhost:8080/genders";
+  const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+  };
 
-  const emp_department = [ "IT", "MED", "Finance"];
-  const [department, setDepartment] = React.useState<string | null>(null);
+  fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              setGender(res.data);
+          }
+      });
+};
 
-  const emp_position = [ "Admin", "Doctor", "Nurse", "Cashier"];
-  const [position, setPosition] = React.useState<string | null>(null);
+const getBloodGrops = async () => {                                                          //ดึงข้อมูล BloodGroups                               
+  const apiUrl = "http://localhost:8080/bloodGroups";
+  const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+  };
+
+  fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              setBloodGroups(res.data);
+          }
+      });
+};
+
+const getPosition = async () => {                                                          //ดึงข้อมูล Position                              
+  const apiUrl = "http://localhost:8080/positions";
+  const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+  };
+
+  fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              setPosition(res.data);
+          }
+      });
+};
+
+const getDepartment = async () => {                                                          //ดึงข้อมูล Department                           
+  const apiUrl = "http://localhost:8080/departments";
+  const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+  };
+
+  fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+          if (res.data) {
+              setDepartment(res.data);
+          }
+      });
+};
+
+const handleClose = (                                                                         //ป้ายบันทึกเปิดปิด
+
+  event?: React.SyntheticEvent | Event,
+ 
+  reason?: string
+ 
+) => {
+ 
+  if (reason === "clickaway") {
+ 
+    return;
+ 
+  }
+ 
+  setSuccess(false);
+ 
+  setError(false);
+ 
+};
 
 const submit = () => {
-  console.log(Personal_ID,FirstName,LastName,gender,bloodgroups,department,position,Password);
+  console.log(employee.GenderID);
+
+  let data = {                                   //ประกาศก้อนข้อมูล
+
+    Personal_ID:    Personal_ID,
+
+    First_Name:     FirstName,
+  
+    Last_Name:      LastName,
+  
+    GenderID:       employee.GenderID,
+  
+    BloodGroupsID:  employee.BloodGroupsID,
+  
+    DepartmentID:   1,
+  
+    PositionID:     1,
+    
+    Password:       Password,
+
+  }; 
+
+  console.log(data)
+
+  const apiUrl = "http://localhost:8080/Employees";           //ส่งขอบันทึก
+
+  const requestOptions = {
+
+    method: "POST",
+
+    headers: { "Content-Type": "application/json" },
+
+    body: JSON.stringify(data),
+
+  };
+
+  fetch(apiUrl, requestOptions)                                       //ขอการส่งกลับมาเช็คว่าบันทึกสำเร็จมั้ย
+
+    .then((response) => response.json())
+
+    .then((res) => {
+
+      if (res.data) {
+        setSuccess(true);
+
+      } else {
+        setError(true);
+
+      }
+    });
 }
+
+React.useEffect(() => {                                                                       //เรียกข้อมูล                     
+  getGender();
+  getBloodGrops();
+  getPosition();
+  getDepartment();
+}, []);
 
   return (
     <div>
       <Box>
+        <Snackbar                                                                                 //ป้ายบันทึกสำเร็จ
+
+          open={success}
+
+          autoHideDuration={6000}
+
+          onClose={handleClose}
+
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+
+          >
+
+          <Alert onClose={handleClose} severity="success">              
+
+            บันทึกข้อมูลสำเร็จ
+
+          </Alert>
+
+          </Snackbar>
+
+          <Snackbar                                                                                 //ป้ายบันทึกไม่สำเร็จ
+          open={error} 
+          autoHideDuration={6000} 
+          onClose={handleClose} 
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+
+          <Alert onClose={handleClose} severity="error">
+
+            บันทึกข้อมูลไม่สำเร็จ
+
+          </Alert>
+
+        </Snackbar>
+
         <Container maxWidth="md">
         <Paper>
           <Box
@@ -54,7 +231,7 @@ const submit = () => {
           </Box>
             <Grid container spacing={2}>
 
-              <Grid container justifyContent={"center"}
+            <Grid container justifyContent={"center"}
                 sx={{
                   paddingY: 2,
                 }}
@@ -108,18 +285,37 @@ const submit = () => {
                 <p>Gender:</p>
                 </Grid>
                 <Grid item xs={6}>
-                <Autocomplete
-                    value={gender}
-                    onChange={(event: any, newValue: string | null) => {
-                      setGender(newValue);
-                      console.log(newValue);
-                    }}
-                    id="gender"
-                    options={emp_gender}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="gender" />
-                    )}/>
+                  <Autocomplete
+                        id="gender-autocomplete"
+                        options={gender}
+                        fullWidth
+                        size="small"
+                        onChange={(event: any, value) => {
+                          console.log(value?.ID); //Get ID from patientinterface
+                          setEmployee({ ...employee, GenderID: value?.ID }); //Just Set ID to interface
+                        }}
+                        getOptionLabel={(option: any) =>
+                          `${option.Gender_Name}`
+                        } //filter value
+                        renderInput={(params) => {
+                          return (
+                            <TextField
+                              {...params}
+                              variant="outlined"
+                              placeholder="Search..."
+                            />
+                          );
+                        }}
+                        renderOption={(props: any, option: any) => {
+                          return (
+                            <li
+                              {...props}
+                              value={`${option.ID}`}
+                              key={`${option.ID}`}
+                            >{`${option.Gender_Name}`}</li>
+                          ); //display value
+                        }}
+                      />
                 </Grid>
               </Grid>
 
@@ -132,43 +328,36 @@ const submit = () => {
                 <p>Blood groups:</p>
                 </Grid>
                 <Grid item xs={6}>
-                <Autocomplete
-                    value={bloodgroups}
-                    onChange={(event: any, newValue: string | null) => {
-                      setBloodgroups(newValue);
-                      console.log(newValue);
-                    }}
-                    id="bloodgroups"
-                    options={blood_groups}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="Bloodgroups" />
-                    )}
-                    />
-                </Grid>
-              </Grid>
-
-              <Grid container justifyContent={"center"}
-                  sx={{
-                    paddingY: 2,
-                  }}
-                >
-                <Grid item xs={2}>
-                <p>Department:</p>
-                </Grid>
-                <Grid item xs={6}>
-                <Autocomplete
-                    value={department}
-                    onChange={(event: any, newValue: string | null) => {
-                      setDepartment(newValue);
-                      console.log(newValue);
-                    }}
-                    id="department"
-                    options={emp_department}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="department" />
-                    )}
+                  <Autocomplete
+                    id="bloodGroups-autocomplete"
+                    options={bloodGroups}
+                    fullWidth
+                    size="small"
+                    onChange={(event: any, value) => {
+                      console.log(value?.ID); //Get ID from patientinterface
+                        setEmployee({ ...employee, BloodGroupsID: value?.ID }); //Just Set ID to interface
+                      }}
+                      getOptionLabel={(option: any) =>
+                        `${option.Blood_Groups_Name}`
+                      } //filter value
+                      renderInput={(params) => {
+                        return (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            placeholder="Search..."
+                          />
+                        );
+                      }}
+                      renderOption={(props: any, option: any) => {
+                        return (
+                          <li
+                            {...props}
+                            value={`${option.ID}`}
+                            key={`${option.ID}`}
+                          >{`${option.Blood_Groups_Name}`}</li>
+                        ); //display value
+                      }}
                     />
                 </Grid>
               </Grid>
@@ -183,22 +372,82 @@ const submit = () => {
                 </Grid>
                 <Grid item xs={6}>
                 <Autocomplete
-                    value={position}
-                    onChange={(event: any, newValue: string | null) => {
-                      setPosition(newValue);
-                      console.log(newValue);
-                    }}
-                    id="position"
-                    options={emp_position}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="position" />
-                    )}
+                    id="position-autocomplete"
+                    options={position}
+                    fullWidth
+                    size="small"
+                    onChange={(event: any, value) => {
+                      console.log(value?.ID); //Get ID from patientinterface
+                        setEmployee({ ...employee, PositionID: value?.ID }); //Just Set ID to interface
+                      }}
+                      getOptionLabel={(option: any) =>
+                        `${option.Position_Name}`
+                      } //filter value
+                      renderInput={(params) => {
+                        return (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            placeholder="Search..."
+                          />
+                        );
+                      }}
+                      renderOption={(props: any, option: any) => {
+                        return (
+                          <li
+                            {...props}
+                            value={`${option.ID}`}
+                            key={`${option.ID}`}
+                          >{`${option.Position_Name}`}</li>
+                        ); //display value
+                      }}
                     />
                 </Grid>
               </Grid>
 
-              <Grid container spacing={2}>
+              <Grid container justifyContent={"center"}
+                  sx={{
+                    paddingY: 2,
+                  }}
+                >
+                <Grid item xs={2}>
+                <p>Department:</p>
+                </Grid>
+                <Grid item xs={6}>
+                <Autocomplete
+                    id="department-autocomplete"
+                    options={department}
+                    fullWidth
+                    size="small"
+                    onChange={(event: any, value) => {
+                      console.log(value?.ID); //Get ID from patientinterface
+                        setEmployee({ ...employee, DepartmentID: value?.ID }); //Just Set ID to interface
+                      }}
+                      getOptionLabel={(option: any) =>
+                        `${option.Department_Name}`
+                      } //filter value
+                      renderInput={(params) => {
+                        return (
+                          <TextField
+                            {...params}
+                            variant="outlined"
+                            placeholder="Search..."
+                          />
+                        );
+                      }}
+                      renderOption={(props: any, option: any) => {
+                        return (
+                          <li
+                            {...props}
+                            value={`${option.ID}`}
+                            key={`${option.ID}`}
+                          >{`${option.Department_Name}`}</li>
+                        ); //display value
+                      }}
+                    />
+                </Grid>
+              </Grid>
+
               <Grid container justifyContent={"center"}
                 sx={{
                   paddingY: 2,
@@ -208,9 +457,9 @@ const submit = () => {
                 <p>Password:</p>
               </Grid>
               <Grid item xs={6}>
-              <TextField fullWidth id="Password" type="string" variant="outlined" 
-                onChange={(event) => SetPassword(event.target.value)}
-              />
+                <TextField fullWidth id="Password" type="string" variant="outlined" 
+                  onChange={(event) => SetPassword(event.target.value)}
+                />
               </Grid>
             </Grid>
 
@@ -238,7 +487,7 @@ const submit = () => {
               </Grid>
 
             </Grid>
-            </Grid>
+
         </Paper>
         </Container>
         </Box>

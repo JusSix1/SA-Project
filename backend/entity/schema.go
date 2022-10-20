@@ -9,7 +9,7 @@ import (
 // --- ระบบบันทึกข้อมูลบุคลากร
 type Department struct {
 	gorm.Model
-	Department_NAME string
+	Department_Name string
 	Employee        []Employee    `gorm:"foreignKey:DepartmentID"`
 	Appointment     []Appointment `gorm:"foreignKey:DepartmentID"`
 }
@@ -46,7 +46,7 @@ type Employee struct {
 	Department    Department `gorm:"references:id"`
 	PositionID    *uint
 	Position      Position `gorm:"references:id"`
-	password      string
+	Password      string
 	Patient       []Patient      `gorm:"foreignKey:Employee_ID"`
 	Diagnostic    []Diagnostic   `gorm:"foreignKey:Employee_ID"`
 	Dispensation  []Dispensation `gorm:"foreignKey:Employee_ID"`

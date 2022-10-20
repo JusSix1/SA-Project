@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import FullAppBar from "./components/FullAppBar";
-import AppointmentTable_UI from "./components/AppointmentTable_UI";
 
 import Login from './components/Login_UI';
 import Employee_entry from "./components/EmployeeData_UI";
