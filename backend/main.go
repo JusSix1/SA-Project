@@ -41,7 +41,8 @@ func main() {
 	r.GET("/positions", position_controller.ListPosition)
 
 	//Employee
-	r.POST("/Employees", employee_controller.CreateEmployees)
+	r.POST("/employees", employee_controller.CreateEmployees)
+	r.GET("/employees", employee_controller.ListEmployees)
 
 	//Patient
 	r.GET("/patients", patient_controller.ListPetients)

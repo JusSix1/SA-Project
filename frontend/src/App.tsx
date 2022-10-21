@@ -8,6 +8,7 @@ import Diagnostic from "./components/Diagnostic_UI";
 import Dispensation from './components/Dispensation_UI';
 import Appointment_UI from "./components/AppointmentCreate_UI";
 import Bill_UI from './components/Bill_UI';
+import EmployeeTable_UI from "./components/EmployeeTable_UI";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/employee" element={<Employee_entry />} />
+        <Route path="/employeeTable" element={<EmployeeTable_UI/>} />
         <Route path="/patient" element={<Patient_UI />} />
         <Route path="/diagnostic" element={<Diagnostic />} />
         <Route path="/dispensation" element={<Dispensation />} />

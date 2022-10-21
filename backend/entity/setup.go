@@ -54,77 +54,77 @@ func SetupDatabase() {
 
 	//Department
 	D1 := Department{
-		Department_Name: "IT",
+		Department_Name: "IT(ฝ่ายไอที)",
 	}
 	db.Model(&Department{}).Create(&D1)
 
 	D2 := Department{
-		Department_Name: "MED",
-	}
+		Department_Name: "MED(อายุรกรรม)",
+	} //////////////////////////////////////////////.
 	db.Model(&Department{}).Create(&D2)
 
 	D3 := Department{
-		Department_Name: "ER",
+		Department_Name: "ER(ห้องอุบัติเหตุ)",
 	}
 	db.Model(&Department{}).Create(&D3)
 
 	D4 := Department{
-		Department_Name: "OR",
+		Department_Name: "OR(ห้องผ่าตัด)",
 	}
 	db.Model(&Department{}).Create(&D4)
 
 	D5 := Department{
-		Department_Name: "LR",
+		Department_Name: "LR(ห้องคลอด)",
 	}
 	db.Model(&Department{}).Create(&D5)
 
 	D6 := Department{
-		Department_Name: "OPD",
+		Department_Name: "OPD(แผนกผู้ป่วยนอก)",
 	}
 	db.Model(&Department{}).Create(&D6)
 
 	D7 := Department{
-		Department_Name: "SUR",
+		Department_Name: "SUR(ศัลยกรรม)",
 	}
 	db.Model(&Department{}).Create(&D7)
 
 	D8 := Department{
-		Department_Name: "ORTHO",
+		Department_Name: "ORTHO(กระดูก)",
 	}
 	db.Model(&Department{}).Create(&D8)
 
 	D9 := Department{
-		Department_Name: "OB-GYN",
+		Department_Name: "OB-GYN(สูติ-นรีเวชกรรม)",
 	}
 	db.Model(&Department{}).Create(&D9)
 
 	D10 := Department{
-		Department_Name: "ANC",
+		Department_Name: "ANC(ฝากครรภ์)",
 	}
 	db.Model(&Department{}).Create(&D10)
 
 	D11 := Department{
-		Department_Name: "IPD",
+		Department_Name: "IPD(แผนกผู้ป่วยใน)",
 	}
 	db.Model(&Department{}).Create(&D11)
 
 	D12 := Department{
-		Department_Name: "ENT",
+		Department_Name: "ENT(ตา หู ลำคอ)",
 	}
 	db.Model(&Department{}).Create(&D12)
 
 	D13 := Department{
-		Department_Name: "ICU",
+		Department_Name: "ICU(หออภิบาลผู้ป่วยหนักรวม)",
 	}
 	db.Model(&Department{}).Create(&D13)
 
 	D14 := Department{
-		Department_Name: "CCU",
+		Department_Name: "CCU(หออภิบาลผู้ป่วยหนัก)",
 	}
 	db.Model(&Department{}).Create(&D14)
 
 	D := Department{
-		Department_Name: "Finance",
+		Department_Name: "Finance(ฝ่ายการเงิน)",
 	}
 	db.Model(&Department{}).Create(&D)
 

@@ -13,8 +13,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import FormControl from "@mui/material/FormControl";
-import Select from "@material-ui/core/Select";
 
 import { AppointmentsInterface } from "../models/Appointment/IAppointment";
 import { PatientsInterface } from "../models/patient/IPatient";

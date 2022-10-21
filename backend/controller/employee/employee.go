@@ -6,6 +6,7 @@ import (
 	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/non-nattawut/patient-management-system/entity"
+	"golang.org/x/crypto/bcrypt"
 )
 
 /* --- ระบบบันทึข้อมูลบุคลากร --- */
@@ -16,7 +17,7 @@ func CreateEmployees(c *gin.Context) {
 
 	var employee entity.Employee
 	var gender entity.Gender
-	var bloodGrouds entity.BloodGroups
+	var bloodGroups entity.BloodGroups
 	var department entity.Department
 	var position entity.Position
 
@@ -48,7 +49,7 @@ func CreateEmployees(c *gin.Context) {
 	}
 
 	// ค้นหา bloodGroups ด้วย id
-	if tx := entity.DB().Where("id = ?", employee.BloodGroupsID).First(&bloodGrouds); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", employee.BloodGroupsID).First(&bloodGroups); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "bloodGrouds not found"})
 		return
 	}
@@ -65,6 +66,13 @@ func CreateEmployees(c *gin.Context) {
 		return
 	}
 
+	// เข้ารหัสลับรหัสผ่านที่ผู้ใช้กรอกก่อนบันทึกลงฐานข้อมูล
+	hashPassword, err := bcrypt.GenerateFromPassword([]byte(employee.Password), 14)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error hashing password"})
+		return
+	}
+
 	// 10: สร้าง Appointment
 	emp := entity.Employee{
 		Personal_ID:   employee.Personal_ID,
@@ -74,7 +82,7 @@ func CreateEmployees(c *gin.Context) {
 		BloodGroupsID: employee.BloodGroupsID,
 		DepartmentID:  employee.DepartmentID,
 		PositionID:    employee.PositionID,
-		Password:      employee.Password,
+		Password:      string(hashPassword),
 	}
 
 	// ขั้นตอนการ validate ที่นำมาจาก unit test
@@ -110,12 +118,12 @@ func GetEmployee(c *gin.Context) {
 
 // GET /employee
 func ListEmployees(c *gin.Context) {
-	var employees []entity.Employee
+	var employee []entity.Employee
 
-	if err := entity.DB().Raw("SELECT * FROM employees").Scan(&employees).Error; err != nil {
+	if err := entity.DB().Preload("Gender").Preload("BloodGroups").Preload("Position").Preload("Department").Raw("SELECT * FROM employees").Find(&employee).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": employees})
+	c.JSON(http.StatusOK, gin.H{"data": employee})
 }

@@ -12,6 +12,7 @@ import { GendersInterface } from '../models/employee/IGender';
 import { EmployeesInterface } from '../models/employee/IEmployee';
 import { BloodGroupsInterface } from '../models/employee/IBloodGroups';
 import { PositionsInterface } from '../models/employee/IPosition';
+import { Link as RouterLink } from "react-router-dom";
 
 function Employee_entry() {
 
@@ -135,9 +136,9 @@ const submit = () => {
   
     BloodGroupsID:  employee.BloodGroupsID,
   
-    DepartmentID:   1,
+    DepartmentID:   employee.DepartmentID,
   
-    PositionID:     1,
+    PositionID:     employee.PositionID,
     
     Password:       Password,
 
@@ -145,7 +146,7 @@ const submit = () => {
 
   console.log(data)
 
-  const apiUrl = "http://localhost:8080/Employees";           //ส่งขอบันทึก
+  const apiUrl = "http://localhost:8080/employees";           //ส่งขอบันทึก
 
   const requestOptions = {
 
@@ -181,7 +182,6 @@ React.useEffect(() => {                                                         
 }, []);
 
   return (
-    <div>
       <Box>
         <Snackbar                                                                                 //ป้ายบันทึกสำเร็จ
 
@@ -288,8 +288,6 @@ React.useEffect(() => {                                                         
                   <Autocomplete
                         id="gender-autocomplete"
                         options={gender}
-                        fullWidth
-                        size="small"
                         onChange={(event: any, value) => {
                           console.log(value?.ID); //Get ID from patientinterface
                           setEmployee({ ...employee, GenderID: value?.ID }); //Just Set ID to interface
@@ -331,8 +329,6 @@ React.useEffect(() => {                                                         
                   <Autocomplete
                     id="bloodGroups-autocomplete"
                     options={bloodGroups}
-                    fullWidth
-                    size="small"
                     onChange={(event: any, value) => {
                       console.log(value?.ID); //Get ID from patientinterface
                         setEmployee({ ...employee, BloodGroupsID: value?.ID }); //Just Set ID to interface
@@ -374,8 +370,6 @@ React.useEffect(() => {                                                         
                 <Autocomplete
                     id="position-autocomplete"
                     options={position}
-                    fullWidth
-                    size="small"
                     onChange={(event: any, value) => {
                       console.log(value?.ID); //Get ID from patientinterface
                         setEmployee({ ...employee, PositionID: value?.ID }); //Just Set ID to interface
@@ -417,8 +411,6 @@ React.useEffect(() => {                                                         
                 <Autocomplete
                     id="department-autocomplete"
                     options={department}
-                    fullWidth
-                    size="small"
                     onChange={(event: any, value) => {
                       console.log(value?.ID); //Get ID from patientinterface
                         setEmployee({ ...employee, DepartmentID: value?.ID }); //Just Set ID to interface
@@ -471,7 +463,7 @@ React.useEffect(() => {                                                         
               }}
               >
                 <Button variant="contained" color="primary" onClick={submit}>
-                  Save
+                  Submit
                 </Button>
               </Grid>
               <Grid
@@ -481,8 +473,8 @@ React.useEffect(() => {                                                         
                 paddingY: 2,
               }}
               >
-                <Button variant="contained" color="primary" onClick={submit}>
-                  Back
+                <Button variant="contained" color="primary" component={RouterLink} to="/employeeTable">
+                    Data
                 </Button>
               </Grid>
 
@@ -491,9 +483,7 @@ React.useEffect(() => {                                                         
         </Paper>
         </Container>
         </Box>
-    </div>
   );
 }
  
 export default Employee_entry;
-
