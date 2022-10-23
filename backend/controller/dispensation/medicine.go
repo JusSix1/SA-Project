@@ -22,4 +22,4 @@ func ListMedicines(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": medicines})
 }
 
-/** END step 6 ดึงข้อมูลทั้งหมด() */
+/** END step 7 ดึงข้อมูลทั้งหมด() */

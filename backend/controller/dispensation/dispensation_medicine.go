@@ -19,19 +19,25 @@ func CreateDispensationMedicine(c *gin.Context) { // gin.Context มีราย
 		return
 	}
 
-	// 10: ค้นหาด้วย(Medicine_ID)
+	// เช็คว่าหากไม่มีการป้อนจำนวนยามาจะแจ้ง error ออกไป
+	if dispensation_medicine.Medicine_Amount == 0 { // เนื่องจาก Number() ใน React หากเจอ null / undefined จะ return 0
+		c.JSON(http.StatusBadRequest, gin.H{"error": "medicine amount invalid"})
+		return
+	}
+
+	// 13: ค้นหาด้วย(Medicine_ID)
 	if tx := entity.DB().Where("id = ?", dispensation_medicine.Medicine_ID).First(&medicine); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}
 
-	// 13: ค้นหาด้วยไอดี(Dispensation_ID)
+	// 14: ค้นหาด้วยไอดี(Dispensation_ID)
 	if tx := entity.DB().Where("id = ?", dispensation_medicine.Dispensation_ID).First(&dispensation); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}
 
-	// 14: สร้าง (d,m,MEDICINE_AMOUNT,TIME_STAMP)
+	// 15: สร้าง (d,m,MEDICINE_AMOUNT,TIME_STAMP)
 	dm := entity.Dispensation_Medicine{
 		Dispensation:    dispensation,
 		Medicine:        medicine,
@@ -39,7 +45,7 @@ func CreateDispensationMedicine(c *gin.Context) { // gin.Context มีราย
 		Time_Stamp:      dispensation_medicine.Time_Stamp.Local(),
 	}
 
-	// 15: บันทึก_Dispensation_Medicine
+	// 16: บันทึก_Dispensation_Medicine
 	if err := entity.DB().Create(&dm).Error; err != nil { // สร้าง DB พร้อมเช็คว่าสร้างสำเร็จหรือไม่
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -48,24 +54,12 @@ func CreateDispensationMedicine(c *gin.Context) { // gin.Context มีราย
 	c.JSON(http.StatusOK, gin.H{"data": dm}) // respone ว่าผ่าน และส่งข้อมูลกลับไป
 }
 
-// GET /dispensation_medicine/:id
-func GetDispensationMedicine(c *gin.Context) {
-	var dispensation_medicine entity.Dispensation_Medicine
-	id := c.Param("id")
-
-	if err := entity.DB().Raw("SELECT * FROM dispensation_medicines WHERE id = ?", id).Scan(&dispensation_medicine).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": dispensation_medicine})
-}
-
 // GET /dispensation_medicines
-func ListDispensationMedicines(c *gin.Context) {
+func ListDispensationMedicinesTable(c *gin.Context) {
 	var dispensation_medicines []entity.Dispensation_Medicine
 
-	if err := entity.DB().Raw("SELECT * FROM dispensation_medicines").Scan(&dispensation_medicines).Error; err != nil {
+	/*** ตอนแสดงผลตารางต้องมี prepload ***/
+	if err := entity.DB().Preload("Medicine").Raw("SELECT * FROM dispensation_medicines").Find(&dispensation_medicines).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

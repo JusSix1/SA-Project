@@ -11,7 +11,8 @@ function AppointmentTable_UI() {
     getAppointment();
   }, []);
 
-  const getAppointment = async () => {                                                              //ดึงข้อมูลผู้ป๋วย                                   
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const getAppointment = async () => {                                                              //7.ดึงข้อมูลผู้ป๋วย                                   
     const apiUrl = "http://localhost:8080/appointment";
     const requestOptions = {
         method: "GET",
@@ -30,15 +31,16 @@ function AppointmentTable_UI() {
   const columns: GridColDef[] = [
     { field: "ID", headerName: "ลำดับ", width: 70 },
     {
-      field: "Employee_ID",
-      headerName: "เลขที่พนักงาน",
+      field: "Employee",
+      headerName: "ชื่อแพทย์",
       width: 250,
+      valueGetter: (params) => params.value.First_Name + " " + params.value.Last_Name,
     },
     {
       field: "Patient",
       headerName: "ชื่อ ผู้ป๋วย",
       width: 250,
-      valueFormatter: (params) => params.value.Patient_Firstname + " " + params.value.Patient_Lastname,
+      valueGetter: (params) => params.value.Patient_Firstname + " " + params.value.Patient_Lastname,
     },
     { field: "App_Out", headerName: "วันที่ออกใบนัด", width: 250 },
     { field: "App_In", headerName: "วันที่นัด", width: 250 },
@@ -51,7 +53,7 @@ function AppointmentTable_UI() {
       field: "Department",
       headerName: "แผนก",
       width: 150,
-      valueFormatter: (params) => params.value.Department_Name,
+      valueGetter: (params) => params.value.Department_Name,
     },
   ];
 

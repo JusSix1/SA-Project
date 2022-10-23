@@ -13,35 +13,24 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-
 import { AppointmentsInterface } from "../models/Appointment/IAppointment";
 import { PatientsInterface } from "../models/patient/IPatient";
 import { DepartmentsInterface } from "../models/employee/IDepartment";
-
 import AppointmentTable_UI from "./AppointmentTable_UI";
 
 function Appointment_UI() {
-  //const [value, setValue] = React.useState<string | null>(options[0]);
-  //const [inputValue, setInputValue] = React.useState(''); //set inputValue back
-
   const [appointment,setAppointment] =React.useState<Partial<AppointmentsInterface>>({});
-  
   const [patient, setPatient] = React.useState<PatientsInterface[]>([]);
-
   const [department, setDepartment] = React.useState<DepartmentsInterface[]>([]);
-
   const [dateOut, setDateOut] = React.useState<Dayjs | null>(dayjs());
-
   const [dateIn, setDateIn] = React.useState<Dayjs | null>(dayjs());
-
   const [details, setDetails] = React.useState<String>("");
-
   const [success, setSuccess] = React.useState(false);
-
   const [error, setError] = React.useState(false);
+  const [noAccess, setNoAccess] = React.useState(false);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  const getPatient = async () => {                                                              //ดึงข้อมูลผู้ป๋วย                                   
+  const getPatient = async () => {                                                              // 5.ดึงข้อมูลผู้ป๋วย                                   
       const apiUrl = "http://localhost:8080/patients";
       const requestOptions = {
           method: "GET",
@@ -59,7 +48,7 @@ function Appointment_UI() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const getDepartment = async () => {                                                           //ดึงข้อมูล Department
+  const getDepartment = async () => {                                                           //6.ดึงข้อมูล Department
     const apiUrl = "http://localhost:8080/departments";
     const requestOptions = {
         method: "GET",
@@ -79,86 +68,69 @@ function Appointment_UI() {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
   };
-
-  const handleChangeDepartment = (                                                              // เปลี่ยนชื่อการแสดงผลใน combobox
-    event: React.ChangeEvent<{ name?: any; value: unknown }>
-  ) => {
-    const name = event.target.name as keyof typeof appointment;
-    setAppointment({
-      ...appointment,
-      [name]: event.target.value,
-      });      
-  };
-
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const handleClose = (                                                                         //ป้ายบันทึกเปิดปิด
-
     event?: React.SyntheticEvent | Event,
- 
     reason?: string
- 
   ) => {
- 
     if (reason === "clickaway") {
- 
       return;
- 
     }
- 
     setSuccess(false);
- 
     setError(false);
- 
+    setNoAccess(false);
   };
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  const submit = () => {                                                                        //กด submit 
-    let data = {                                   //ประกาศก้อนข้อมูล
+  const submit = () => {                                                          //8.บันทึกการนัด
+    if(localStorage.getItem("positionid") == "1"){ // เป็นหมอจริง จะบันทึกได้                                                                    //กด submit 
+      let data = {                                   //ประกาศก้อนข้อมูล
 
-      Employee_ID: 1,
+        Employee_ID: Number(localStorage.getItem("uid")),
 
-      Patient_ID: appointment.Patient_ID,
- 
-      APP_OUT: dateOut,
- 
-      APP_IN: dateIn,
- 
-      APP_NOTE: details ?? "",
- 
-      DepartmentID: convertType(appointment.DepartmentID),
- 
-    }; 
-
-    console.log(data)
- 
-    const apiUrl = "http://localhost:8080/appointment";           //ส่งขอบันทึก
- 
-    const requestOptions = {
- 
-      method: "POST",
- 
-      headers: { "Content-Type": "application/json" },
- 
-      body: JSON.stringify(data),
- 
-    };
- 
-    fetch(apiUrl, requestOptions)                                       //ขอการส่งกลับมาเช็คว่าบันทึกสำเร็จมั้ย
- 
-      .then((response) => response.json())
- 
-      .then((res) => {
- 
-        if (res.data) {
-          setSuccess(true);
- 
-        } else {
-          setError(true);
- 
-        }
-      });
+        Patient_ID: appointment.Patient_ID,
+  
+        APP_OUT: dateOut,
+  
+        APP_IN: dateIn,
+  
+        APP_NOTE: details ?? "",
+  
+        DepartmentID: convertType(appointment.DepartmentID),
+  
+      };
+  
+      const apiUrl = "http://localhost:8080/appointment";           //ส่งขอบันทึก
+  
+      const requestOptions = {
+  
+        method: "POST",
+  
+        headers: { "Content-Type": "application/json" },
+  
+        body: JSON.stringify(data),
+  
+      };
+  
+      fetch(apiUrl, requestOptions)                                       //ขอการส่งกลับมาเช็คว่าบันทึกสำเร็จมั้ย
+  
+        .then((response) => response.json())
+  
+        .then((res) => {
+  
+          if (res.data) {
+            setSuccess(true);
+  
+          } else {
+            setError(true);
+  
+          }
+        });
+    } else {                                                                 // alert บันทึกไม่สำเร็จ
+      setNoAccess(true)
+  }
   };
 
   React.useEffect(() => {                                                                       //เรียกข้อมูล                     
@@ -203,6 +175,16 @@ function Appointment_UI() {
         </Alert>
 
       </Snackbar>
+
+      <Snackbar // คุณไม่มีสิทธิการเข้าถึง
+        open={noAccess} 
+        autoHideDuration={3000} 
+        onClose={handleClose} 
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}>
+        <Alert onClose={handleClose} severity="error">
+          คุณไม่มีสิทธิการเข้าถึง
+        </Alert>
+      </Snackbar>
       <Container maxWidth="xl">
         <Box>
           <Paper elevation={2} sx={{ marginTop: 1, marginX: 10 }}>
@@ -219,7 +201,6 @@ function Appointment_UI() {
                         fullWidth
                         size="small"
                         onChange={(event: any, value) => {
-                          console.log(value?.ID); //Get ID from patientinterface
                           setAppointment({ ...appointment, Patient_ID: value?.ID }); //Just Set ID to interface
                         }}
                         getOptionLabel={(option: any) =>
@@ -257,7 +238,6 @@ function Appointment_UI() {
                     fullWidth
                     size="small"
                     onChange={(event: any, value) => {
-                      console.log(value?.ID); //Get ID from patientinterface
                         setAppointment({ ...appointment, DepartmentID: value?.ID }); //Just Set ID to interface
                       }}
                       getOptionLabel={(option: any) =>

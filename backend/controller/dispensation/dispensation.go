@@ -14,29 +14,22 @@ import (
 func CreateDispensation(c *gin.Context) { // gin.Context มีรายละเอียดของ request, validates, จัดรูปแบบเป็น JSON
 	var dispensation entity.Dispensation
 	var patient entity.Patient
-	var doctor entity.Employee
 
 	if err := c.ShouldBindJSON(&dispensation); err != nil { // ตรวจสอบว่า JSON ที่ผ่านเข้ามามีรูปแบบตรงกับที่กำหนดไว้ในDBหรือไม่
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// 9: ค้นหาด้วย(Patient_Personal_ID)
+	// 10: ค้นหาด้วย(Patient_Personal_ID)
 	if tx := entity.DB().Where("id = ?", dispensation.Patient_ID).First(&patient); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
-		return
-	}
-
-	// ค้นหา doctor personal id (employee id)
-	if tx := entity.DB().Where("id = ?", dispensation.Employee_ID).First(&doctor); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
 	}
 
 	// 11: สร้าง(Dispensation_ID, p, currentEmployee)
 	d := entity.Dispensation{
-		Patient:  patient, // โยงฐานข้อมูล
-		Employee: doctor,  // โยงฐานข้อมูล
+		Patient:     patient,                  // โยงฐานข้อมูล
+		Employee_ID: dispensation.Employee_ID, // โยงฐานข้อมูล
 	}
 
 	// 12: บันทึก_Dispensation
@@ -48,22 +41,9 @@ func CreateDispensation(c *gin.Context) { // gin.Context มีรายละ�
 	c.JSON(http.StatusOK, gin.H{"data": d}) // respone ว่าผ่าน และส่งข้อมูลกลับไป
 }
 
-// GET /dispensation/:id
-func GetDispensation(c *gin.Context) { // ดึงข้อมูลจาก dispensation id ที่กรอก
-	var dispensation entity.Dispensation
-	id := c.Param("id") // Dispensation ID
-
-	if err := entity.DB().Raw("SELECT * FROM dispensations WHERE id = ?", id).Scan(&dispensation).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": dispensation})
-}
-
 /** START step 5 ดึงข้อมูลทั้งหมด() */
 // GET /dispensations
-func ListDispensations(c *gin.Context) { // ดึงข้อมูลทุกอย่างใน dispensation (เติม s เพราะดึงหลายตัว)
+func ListDispensations(c *gin.Context) { // ดึงข้อมูลทุกอย่างใน dispensation
 	var dispensations []entity.Dispensation
 
 	if err := entity.DB().Raw("SELECT * FROM dispensations").Scan(&dispensations).Error; err != nil {
@@ -76,39 +56,26 @@ func ListDispensations(c *gin.Context) { // ดึงข้อมูลทุก
 
 /** END step 5 ดึงข้อมูลทั้งหมด() */
 
-// DELETE /users/:id
-func DeleteDispensation(c *gin.Context) { // ลบข้อมูล dispensation จาก id ที่กรอก
-	id := c.Param("id")
+// GET /dispensations_table
+func ListDispensationsTable(c *gin.Context) { // ดึงข้อมูลทุกอย่างใน dispensation รวมถึงข้อมูลในตารางที่ติด foriegn key
+	var dispensations []entity.Dispensation
 
-	if tx := entity.DB().Exec("DELETE FROM dispensations WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+	// ต้องมี preload เพื่อโหลดข้อมูลในตารางที่มี FK อยู่
+	if err := entity.DB().Preload("Patient").Preload("Employee").Raw("SELECT * FROM dispensations").Find(&dispensations).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": id})
+	c.JSON(http.StatusOK, gin.H{"data": dispensations})
 }
 
-// PATCH /users
-func UpdateDispensation(c *gin.Context) { // update ข้อมูลใน dispensation นั้นๆ
-	var dispensation entity.Dispensation
+func ListDispensations_Bill(c *gin.Context) { // ดึงข้อมูลทุกอย่างใน dispensation
+	var dispensations []entity.Dispensation
 
-	// เทียบความตรงกันของประเภทข้อมูล
-	if err := c.ShouldBindJSON(&dispensation); err != nil {
+	if err := entity.DB().Preload("Patient").Raw("SELECT * FROM (SELECT * FROM dispensations INNER JOIN diagnostics ORDER BY id DESC) AS x GROUP BY patient_id ").Find(&dispensations).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// เช็คว่ามี ID ที่เราต้องการ updateอยู่จริงๆ
-	if tx := entity.DB().Where("id = ?", dispensation.ID).First(&dispensation); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
-		return
-	}
-
-	// update ข้อมูล ด้วย .save
-	if err := entity.DB().Save(&dispensation).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": dispensation})
+	c.JSON(http.StatusOK, gin.H{"data": dispensations})
 }

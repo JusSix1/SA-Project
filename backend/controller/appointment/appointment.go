@@ -22,19 +22,19 @@ func CraeteAppointment(c *gin.Context) {
 		return
 	}
 
-	// ค้นหา patient ด้วย id
+	// 9.ค้นหา patient ด้วย id
 	if tx := entity.DB().Where("id = ?", appointment.Patient_ID).First(&patinent); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "patient not found"})
 		return
 	}
 
-	// ค้นหา department ด้วย id
+	// 10.ค้นหา department ด้วย id
 	if tx := entity.DB().Where("id = ?", appointment.DepartmentID).First(&department); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "department not found"})
 		return
 	}
 
-	// 10: สร้าง Appointment
+	// 11: สร้าง Appointment
 	app := entity.Appointment{
 		Employee_ID:  appointment.Employee_ID,
 		Patient_ID:   appointment.Patient_ID,
@@ -50,7 +50,7 @@ func CraeteAppointment(c *gin.Context) {
 		return
 	}
 
-	// 11: บันทึก
+	// 12: บันทึก
 	if err := entity.DB().Create(&app).Error; err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

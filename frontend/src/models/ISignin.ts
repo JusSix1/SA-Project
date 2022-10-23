@@ -1,6 +1,4 @@
 export interface SigninInterface {
-
-    Email?:         string,
-
+    Personal_ID?:         string,
     Password?:      string,
   }

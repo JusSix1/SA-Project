@@ -8,6 +8,8 @@ require (
 	gorm.io/gorm v1.23.8
 )
 
+require github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+
 require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/gin-contrib/sse v0.1.0 // indirect

@@ -21,8 +21,11 @@ import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AirlineSeatFlatIcon from '@mui/icons-material/AirlineSeatFlat';
 import BadgeIcon from '@mui/icons-material/Badge';
+import HomeIcon from '@mui/icons-material/Home';
 
 import { Link as RouterLink } from "react-router-dom";
+
+import { EmployeesInterface } from '../models/employee/IEmployee';
 
 const useStyles = makeStyles({
   drawer: {
@@ -31,6 +34,11 @@ const useStyles = makeStyles({
 });
 
 function FullAppBar() {
+  const signout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
+
   const [auth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -65,17 +73,22 @@ function FullAppBar() {
 
           <List className={classes.drawer} sx={{margin: 1,padding: 2}}>
 
-          < ListItem button component={RouterLink} to="/employee">                             {/* icon ออกบิล */}
+          < ListItem button component={RouterLink} to="/">                                    {/* icon หน้าแรก */}
+              <HomeIcon color="primary" />
+              <ListItemText primary="หน้าแรก" sx={{padding: 2}}/>
+            </ListItem>
+
+          < ListItem button component={RouterLink} to="/employee">                             {/* icon บุคลากร */}
               <BadgeIcon color="primary" />
               <ListItemText primary="บุคลากร" sx={{padding: 2}}/>
             </ListItem>
 
-            <ListItem button component={RouterLink} to="/patient">                             {/* icon ออกบิล */}
+            <ListItem button component={RouterLink} to="/patient">                             {/* icon คนไข้ */}
               <AirlineSeatFlatIcon color="primary" />
               <ListItemText primary="คนไข้" sx={{padding: 2}}/>
             </ListItem>
 
-            <ListItem button component={RouterLink} to="/diagnostic">                             {/* icon จ่ายยา */}
+            <ListItem button component={RouterLink} to="/diagnostic">                             {/* icon วินิจฉัย */}
               <PersonSearchIcon color="primary" />
               <ListItemText primary="วินิจฉัย" sx={{padding: 2}}/>
             </ListItem>
@@ -129,8 +142,8 @@ function FullAppBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>1300000000000</MenuItem>        {/*รหัสหมออออออ*/}
-                <MenuItem onClick={handleClose} component={RouterLink} to="/" >Logout</MenuItem>
+                <MenuItem onClick={handleClose}>{localStorage.getItem("personal_id")}</MenuItem>        {/*รหัสหมออออออ*/}
+                <MenuItem onClick={signout} component={RouterLink} to="/" >Logout</MenuItem>
               </Menu>
             </div>
           )}

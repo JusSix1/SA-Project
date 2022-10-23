@@ -2,5 +2,5 @@ export interface DepartmentsInterface {
 
     ID: number,
 
-    Department_Name: string,
+    Department_NAME: string,
   }

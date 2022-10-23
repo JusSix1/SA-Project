@@ -31,6 +31,7 @@ type Gender struct {
 	gorm.Model
 	Gender_Name string
 	Employee    []Employee `gorm:"foreignKey:GenderID"`
+	Patient     []Patient  `gorm:"foreignKey:GenderID"`
 }
 
 type Employee struct {
@@ -72,7 +73,9 @@ type Patient struct {
 	Patient_RightsID    *uint
 	Patient_Rights      Patient_Rights `gorm:"references:id"`
 	BloodGroupsID       *uint
-	BloodGroups         BloodGroups    `gorm:"references:id"`
+	BloodGroups         BloodGroups `gorm:"references:id"`
+	GenderID            *uint
+	Gender              Gender         `gorm:"references:id"`
 	Diagnostic          []Diagnostic   `gorm:"foreignKey:Patient_ID"`
 	Dispensation        []Dispensation `gorm:"foreignKey:Patient_ID"`
 	Appointment         []Appointment  `gorm:"foreignKey:Patient_ID"`
@@ -88,8 +91,7 @@ type Disease struct {
 
 type Diagnostic_Type struct {
 	gorm.Model
-	DT_Name    string `gorm:"uniqueIndex"`
-	DT_Cost    uint
+	DT_Name    string       `gorm:"uniqueIndex"`
 	Diagnostic []Diagnostic `gorm:"foreignKey:Diagnostic_TypeID"`
 }
 
@@ -170,5 +172,6 @@ type Bill struct {
 	Employee        Employee `gorm:"references:id"`
 	Payment_type_ID *uint
 	Payment_type    Payment_type `gorm:"references:id"`
+	Bill_Price      uint
 	Time_Stamp      time.Time
 }

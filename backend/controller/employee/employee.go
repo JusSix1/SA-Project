@@ -118,12 +118,12 @@ func GetEmployee(c *gin.Context) {
 
 // GET /employee
 func ListEmployees(c *gin.Context) {
-	var employee []entity.Employee
+	var employees []entity.Employee
 
-	if err := entity.DB().Preload("Gender").Preload("BloodGroups").Preload("Position").Preload("Department").Raw("SELECT * FROM employees").Find(&employee).Error; err != nil {
+	if err := entity.DB().Preload("Gender").Preload("BloodGroups").Preload("Position").Preload("Department").Raw("SELECT * FROM employees").Find(&employees).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": employee})
+	c.JSON(http.StatusOK, gin.H{"data": employees})
 }
