@@ -154,7 +154,7 @@ function Home(){
                 <Grid container padding={2}>
                     <Stack>
                         <Grid alignSelf={"center"}>
-                            <h2> ระบบย่อย :  ระบบใบนัด </h2>
+                            <h2> ระบบย่อย : ระบบใบนัด </h2>
                         </Grid>
                         <Grid>
                             <h4> Requirement </h4>

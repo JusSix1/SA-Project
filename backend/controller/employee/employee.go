@@ -21,7 +21,7 @@ func CreateEmployees(c *gin.Context) {
 	var department entity.Department
 	var position entity.Position
 
-	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 8 จะถูก bind เข้าตัวแปร appointment
+	// ผลลัพธ์ที่ได้จากขั้นตอนที่ 9 จะถูก bind เข้าตัวแปร appointment
 	if err := c.ShouldBindJSON(&employee); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -73,7 +73,7 @@ func CreateEmployees(c *gin.Context) {
 		return
 	}
 
-	// 10: สร้าง Appointment
+	// 14: สร้าง  employee
 	emp := entity.Employee{
 		Personal_ID:   employee.Personal_ID,
 		First_Name:    employee.First_Name,

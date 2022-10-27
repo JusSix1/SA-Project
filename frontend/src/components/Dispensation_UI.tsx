@@ -135,7 +135,10 @@ function Dispensation(){
         const apiUrl = "http://localhost:8080/dispensations";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
         };
        
         fetch(apiUrl, requestOptions)
@@ -154,7 +157,10 @@ function Dispensation(){
         const apiUrl = "http://localhost:8080/patients";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
         };
        
         fetch(apiUrl, requestOptions)
@@ -171,7 +177,10 @@ function Dispensation(){
         const apiUrl = "http://localhost:8080/medicines";
         const requestOptions = {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+            },
         };
        
         fetch(apiUrl, requestOptions)

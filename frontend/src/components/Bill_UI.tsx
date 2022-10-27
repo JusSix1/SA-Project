@@ -95,7 +95,10 @@ function Bill() {
         const apiUrl = "http://localhost:8080";
         const requestOptions = {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(bill_p),
         };
 
@@ -120,7 +123,10 @@ function Bill() {
     const apiUrl = "http://localhost:8080/dispensations_bill";
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
 
     fetch(apiUrl, requestOptions)
@@ -136,7 +142,10 @@ function Bill() {
     const apiUrl = "http://localhost:8080/dispensations_bill";
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
     fetch(apiUrl, requestOptions)
       .then((response) => response.json())
@@ -152,7 +161,10 @@ function Bill() {
     const apiUrl = "http://localhost:8080/paymenttype";
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
 
     fetch(apiUrl, requestOptions)
@@ -168,7 +180,10 @@ function Bill() {
     const apiUrl = "http://localhost:8080/bill_join";
     const requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
     };
 
     fetch(apiUrl, requestOptions)

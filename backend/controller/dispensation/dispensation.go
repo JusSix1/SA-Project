@@ -20,7 +20,7 @@ func CreateDispensation(c *gin.Context) { // gin.Context มีรายละ�
 		return
 	}
 
-	// 10: ค้นหาด้วย(Patient_Personal_ID)
+	// 10: ค้นหาด้วย(Patient_ID)
 	if tx := entity.DB().Where("id = ?", dispensation.Patient_ID).First(&patient); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "id not found"})
 		return
@@ -29,7 +29,7 @@ func CreateDispensation(c *gin.Context) { // gin.Context มีรายละ�
 	// 11: สร้าง(Dispensation_ID, p, currentEmployee)
 	d := entity.Dispensation{
 		Patient:     patient,                  // โยงฐานข้อมูล
-		Employee_ID: dispensation.Employee_ID, // โยงฐานข้อมูล
+		Employee_ID: dispensation.Employee_ID, // ตรงนี้ใช้เป็นการเซ็ตค่าเนื่องจากมีการต้นหามาแล้วตั้งแต่การ login
 	}
 
 	// 12: บันทึก_Dispensation

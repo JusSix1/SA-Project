@@ -10,7 +10,7 @@ function EmployeeTable_UI() {
   const [employee, setEmployee] = useState<EmployeesInterface[]>([]);
 
   const getEmployee = async () => {
-    //ดึงข้อมูลผู้ป๋วย
+    //ดึงข้อมูลบุคลากร
     const apiUrl = "http://localhost:8080/employees";
     const requestOptions = {
       method: "GET",
@@ -78,7 +78,7 @@ function EmployeeTable_UI() {
   return (
     <div>
       <Box paddingX={2}>
-        <h1>บันทึกข้อมูล</h1>
+        <h1>ข้อมูลบุคลากร</h1>
       </Box>
       <Grid container justifyContent={"flex-end"}>
         <Grid padding={5}>

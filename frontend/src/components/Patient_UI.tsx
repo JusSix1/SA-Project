@@ -41,7 +41,10 @@ function Patient_UI() {
     const apiUrl = "http://localhost:8080/bloodgroups";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
     };
   
     fetch(apiUrl, requestOptions)
@@ -57,7 +60,10 @@ function Patient_UI() {
     const apiUrl = "http://localhost:8080/patientrights";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
     };
   
     fetch(apiUrl, requestOptions)
@@ -73,7 +79,10 @@ function Patient_UI() {
     const apiUrl = "http://localhost:8080/genders";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
     };
   
     fetch(apiUrl, requestOptions)

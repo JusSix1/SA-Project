@@ -13,7 +13,10 @@ function DispensationTable_UI() {
     const apiUrl = "http://localhost:8080/dispensations_table";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
     };
    
     fetch(apiUrl, requestOptions)
@@ -30,7 +33,10 @@ function DispensationTable_UI() {
     const apiUrl = "http://localhost:8080/dispensation_medicines";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
     };
    
     fetch(apiUrl, requestOptions)

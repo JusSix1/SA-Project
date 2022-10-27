@@ -329,7 +329,7 @@ func SetupDatabase() {
 	P3 := Patient{
 		Patient_Personal_ID: "0987654321123",
 		Employee:            E2,
-		Patient_Firstname:   "พชชรพล",
+		Patient_Firstname:   "พชรพล",
 		Patient_Lastname:    "วรสุนทร",
 		Patient_Rights:      P,
 		BloodGroups:         BG1,

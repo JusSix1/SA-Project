@@ -12,6 +12,7 @@ import (
 	patient_controller "github.com/non-nattawut/patient-management-system/controller/patient"
 	patient_rights_controller "github.com/non-nattawut/patient-management-system/controller/patient_rights"
 	"github.com/non-nattawut/patient-management-system/entity"
+	middlewares "github.com/non-nattawut/patient-management-system/middlewares"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,65 +26,71 @@ func main() {
 	// login User Route
 	r.POST("/login", login_controller.Login)
 
-	//Department
-	r.GET("/departments", department_controller.ListDepartment)
+	router := r.Group("/")
+	{
+		router.Use(middlewares.Authorizes())
+		{
+			//Department
+			r.GET("/departments", department_controller.ListDepartment)
 
-	//bloodgroups
-	r.GET("/bloodgroups", bloodgroups_controller.ListBloodGroups)
+			//bloodgroups
+			r.GET("/bloodgroups", bloodgroups_controller.ListBloodGroups)
 
-	//patient_rights
-	r.GET("/patientrights", patient_rights_controller.ListPatientRights)
+			//patient_rights
+			r.GET("/patientrights", patient_rights_controller.ListPatientRights)
 
-	//gender
-	r.GET("/genders", employee_controller.ListGenders)
+			//gender
+			r.GET("/genders", employee_controller.ListGenders)
 
-	//position
-	r.GET("/positions", employee_controller.ListPosition)
+			//position
+			r.GET("/positions", employee_controller.ListPosition)
 
-	//Employee
-	r.POST("/employees", employee_controller.CreateEmployees)
-	r.GET("/employees", employee_controller.ListEmployees)
+			//Employee
+			r.POST("/employees", employee_controller.CreateEmployees)
+			r.GET("/employees", employee_controller.ListEmployees)
 
-	//didpensation
-	r.GET("/dispensations", dispensation_controller.ListDispensations)
-	r.POST("/dispensations", dispensation_controller.CreateDispensation)
-	r.GET("/dispensations_table", dispensation_controller.ListDispensationsTable)
-	r.GET("/medicines", dispensation_controller.ListMedicines)
+			//didpensation
+			r.GET("/dispensations", dispensation_controller.ListDispensations)
+			r.POST("/dispensations", dispensation_controller.CreateDispensation)
+			r.GET("/dispensations_table", dispensation_controller.ListDispensationsTable)
+			r.GET("/medicines", dispensation_controller.ListMedicines)
 
-	r.POST("/dispensation_medicines", dispensation_controller.CreateDispensationMedicine)
-	r.GET("/dispensation_medicines", dispensation_controller.ListDispensationMedicinesTable)
+			r.POST("/dispensation_medicines", dispensation_controller.CreateDispensationMedicine)
+			r.GET("/dispensation_medicines", dispensation_controller.ListDispensationMedicinesTable)
 
-	//appointment
-	r.POST("/appointment", appointment_controller.CraeteAppointment)
-	r.GET("/appoinment/:id", appointment_controller.GetAppointment)
-	r.GET("/appointment", appointment_controller.ListAppointment)
+			//appointment
+			r.POST("/appointment", appointment_controller.CraeteAppointment)
+			r.GET("/appoinment/:id", appointment_controller.GetAppointment)
+			r.GET("/appointment", appointment_controller.ListAppointment)
 
-	//patient
-	r.POST("/patients", patient_controller.CreatePatients)
-	r.GET("/patients", patient_controller.ListPetients)
-	r.GET("/patient_table", patient_controller.ListPetients_Table)
+			//patient
+			r.POST("/patients", patient_controller.CreatePatients)
+			r.GET("/patients", patient_controller.ListPetients)
+			r.GET("/patient_table", patient_controller.ListPetients_Table)
 
-	// Bill Routes
-	r.GET("/paymenttype", BillController.ListPaymentType)
+			// Bill Routes
+			r.GET("/paymenttype", BillController.ListPaymentType)
 
-	r.GET("/bill", BillController.ListBill)
-	r.GET("/bill/:id", BillController.GetBill)
-	r.POST("/bill", BillController.CreateBill)
-	r.PATCH("/bill", BillController.UpdateBill)
-	r.DELETE("/bill/:id", BillController.DeleteBill)
+			r.GET("/bill", BillController.ListBill)
+			r.GET("/bill/:id", BillController.GetBill)
+			r.POST("/bill", BillController.CreateBill)
+			r.PATCH("/bill", BillController.UpdateBill)
+			r.DELETE("/bill/:id", BillController.DeleteBill)
 
-	r.GET("/dispensations_bill", dispensation_controller.ListDispensations_Bill)
-	r.GET("/bill_join", BillController.ListBill_Join)
-	r.GET("/diagnostic", diagnostic_controller.ListDiagnostics_Bill)
+			r.GET("/dispensations_bill", dispensation_controller.ListDispensations_Bill)
+			r.GET("/bill_join", BillController.ListBill_Join)
+			r.GET("/diagnostic", diagnostic_controller.ListDiagnostics_Bill)
 
-	// Diagnostic Routes
-	r.GET("/diagnostics", diagnostic_controller.ListDiagnostics)
-	r.GET("/diagnostic/:id", diagnostic_controller.GetDiagnostic)
-	r.POST("/diagnostics", diagnostic_controller.CreateDiagnostic)
-	r.PATCH("/diagnostics", diagnostic_controller.UpdateDiagnostic)
-	r.DELETE("/diagnostics/:id", diagnostic_controller.DeleteDiagnostic)
-	r.GET("/diagnostictypes", diagnostic_controller.ListDiagnostic_Types) // Diagnostic_Type Route
-	r.GET("/diseases", diagnostic_controller.ListDiseases)                // Disease Routes
+			// Diagnostic Routes
+			r.GET("/diagnostics", diagnostic_controller.ListDiagnostics)
+			r.GET("/diagnostic/:id", diagnostic_controller.GetDiagnostic)
+			r.POST("/diagnostics", diagnostic_controller.CreateDiagnostic)
+			r.PATCH("/diagnostics", diagnostic_controller.UpdateDiagnostic)
+			r.DELETE("/diagnostics/:id", diagnostic_controller.DeleteDiagnostic)
+			r.GET("/diagnostictypes", diagnostic_controller.ListDiagnostic_Types) // Diagnostic_Type Route
+			r.GET("/diseases", diagnostic_controller.ListDiseases)                // Disease Routes
+		}
+	}
 
 	r.Run() // run server
 }

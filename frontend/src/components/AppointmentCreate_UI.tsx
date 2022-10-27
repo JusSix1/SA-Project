@@ -13,20 +13,33 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+
 import { AppointmentsInterface } from "../models/Appointment/IAppointment";
 import { PatientsInterface } from "../models/patient/IPatient";
 import { DepartmentsInterface } from "../models/employee/IDepartment";
+
 import AppointmentTable_UI from "./AppointmentTable_UI";
 
 function Appointment_UI() {
+  //const [value, setValue] = React.useState<string | null>(options[0]);
+  //const [inputValue, setInputValue] = React.useState(''); //set inputValue back
+
   const [appointment,setAppointment] =React.useState<Partial<AppointmentsInterface>>({});
+  
   const [patient, setPatient] = React.useState<PatientsInterface[]>([]);
+
   const [department, setDepartment] = React.useState<DepartmentsInterface[]>([]);
+
   const [dateOut, setDateOut] = React.useState<Dayjs | null>(dayjs());
+
   const [dateIn, setDateIn] = React.useState<Dayjs | null>(dayjs());
+
   const [details, setDetails] = React.useState<String>("");
+
   const [success, setSuccess] = React.useState(false);
+
   const [error, setError] = React.useState(false);
+
   const [noAccess, setNoAccess] = React.useState(false);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +47,10 @@ function Appointment_UI() {
       const apiUrl = "http://localhost:8080/patients";
       const requestOptions = {
           method: "GET",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
       };
 
       fetch(apiUrl, requestOptions)
@@ -52,7 +68,10 @@ function Appointment_UI() {
     const apiUrl = "http://localhost:8080/departments";
     const requestOptions = {
         method: "GET",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
     };
 
     fetch(apiUrl, requestOptions)
@@ -108,7 +127,10 @@ function Appointment_UI() {
   
         method: "POST",
   
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
   
         body: JSON.stringify(data),
   

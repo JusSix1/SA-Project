@@ -66,6 +66,7 @@ function Diagnostic_Entry() {
   const [firstname, SetFirstName] = useState<string | undefined>(undefined);
   const [lastname, SetLastName] = useState<string | undefined>(undefined);
   const [bloodgroup, SetBloodGroup] = useState<string | undefined>(undefined);
+  const [diagnostic_id, SetDiagnosticID] = useState<number | undefined>(undefined);
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -169,6 +170,7 @@ function Diagnostic_Entry() {
       .then((res) => {
         if (res.data) {
           SetDiagnostic(res.data);
+          SetDiagnosticID(Object.keys(res.data).length + 1)
         } else {
           console.log("else");
         }
@@ -373,7 +375,7 @@ function Diagnostic_Entry() {
                     <b>Doctor Personal ID</b>
                     <div>{localStorage.getItem("personal_id")}</div>
                     <b>Diagnostic ID</b>
-                    <div>{(Object.keys(diagnostic).length) + 1}</div>
+                    <div>{diagnostic_id}</div>
                   </Stack>
                 </Grid>
                 <Grid item xs={10}>
